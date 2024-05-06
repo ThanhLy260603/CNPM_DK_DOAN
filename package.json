@@ -1,0 +1,31 @@
+{
+  "name": "cnpm_dk_doan",
+  "version": "1.0.0",
+  "description": "nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodejs, monggodb, tailwind"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThanhLy260603/CNPM_DK_DOAN.git"
+  },
+  "keywords": [
+    "nodejs",
+    "Tailwind",
+    "monggodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThanhLy260603/CNPM_DK_DOAN/issues"
+  },
+  "homepage": "https://github.com/ThanhLy260603/CNPM_DK_DOAN#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "handlebars": "^4.7.8",
+    "hbs": "^4.2.0",
+    "mongoose": "^8.3.3"
+  }
+}
