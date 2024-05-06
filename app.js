@@ -37,10 +37,7 @@ app.get('/', (req, res) => {
         let isNotLogin = true
         res.render('home', {isNotLogin} )
     }
-    
 })
-
-
 app.use('/auth', authRoutes)
 
 const PORT = process.env.PORT || 3000;
