@@ -11,7 +11,6 @@ const partialsPath = path.join(__dirname, '/views/partials')
 const Teacher = require('./models/Teacher')
 
 
-
 async function connectDB(url) {
     try {
         await mongoose.connect(url)
