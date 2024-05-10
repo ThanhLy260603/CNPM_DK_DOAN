@@ -50,8 +50,6 @@ exports.getLogin = async function(req, res) {
         res.render('login')
     }
 }
-   
-
 //xử lý yêu cầu đăng ký giáo viên mới
 exports.register = async function(req, res) { 
     // const username = req.body.username

@@ -9,7 +9,6 @@ function checkAuthTeacher(req, res) {
     }
     return true
 }
-
 //hiển thị thông tin cá nhân của giáo viên
 exports.getTeacher = async (req, res) => {
     
@@ -19,4 +18,3 @@ exports.getTeacher = async (req, res) => {
     }
     const teacher = req.session.teacher 
      res.render('teacher/profile', {teacher})
-}

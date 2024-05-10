@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
-const teacherRoutes = require('./routes/teacherRoutes')
-
 const session = require('express-session')
 const hbs = require('hbs')
 const path = require('path')

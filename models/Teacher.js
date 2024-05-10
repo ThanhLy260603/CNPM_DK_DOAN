@@ -1,6 +1,6 @@
+
 // Teacher.js
 const mongoose = require('mongoose');
-
 
 module.exports = mongoose.model('teachers', new mongoose.Schema({
     maGV: String,  
@@ -10,4 +10,5 @@ module.exports = mongoose.model('teachers', new mongoose.Schema({
     gender: String, 
     dateOfBirth: String,
 }))
+
 
