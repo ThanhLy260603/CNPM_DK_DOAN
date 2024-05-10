@@ -18,4 +18,3 @@ exports.getTeacher = async (req, res) => {
     }
     const teacher = req.session.teacher 
      res.render('teacher/profile', {teacher})
-}

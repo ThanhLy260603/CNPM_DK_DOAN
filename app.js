@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
-const teacherRoutes = require('./routes/teacherRoutes')
 const session = require('express-session')
 const hbs = require('hbs')
 const path = require('path')
@@ -88,7 +87,6 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes)
 app.use('/teachers', teacherRoutes)
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
