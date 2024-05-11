@@ -18,3 +18,14 @@ exports.getTeacher = async (req, res) => {
     }
     const teacher = req.session.teacher 
      res.render('teacher/profile', {teacher})
+}
+//hiển thị trang để giáo viên tạo dự án mới
+exports.getCreateProject = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+    }
+    else {
+        const fullNameTeacher  =req.session.teacher.firstName + " " + req.session.teacher.lastName
+        res.render('createProject', {fullNameTeacher})  
+    }
+}
