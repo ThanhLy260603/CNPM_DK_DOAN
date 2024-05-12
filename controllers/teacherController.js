@@ -29,6 +29,8 @@ exports.getCreateProject = async (req, res) => {
         res.render('createProject', {fullNameTeacher})  
     }
 }
+
+
 //xử lý việc tạo dự án mới
 exports.createProject = async (req, res) => {
     if (!checkAuthTeacher(req, res)) { 
