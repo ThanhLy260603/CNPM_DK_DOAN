@@ -29,3 +29,20 @@ exports.getCreateProject = async (req, res) => {
         res.render('createProject', {fullNameTeacher})  
     }
 }
+//xử lý việc tạo dự án mới
+exports.createProject = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+    }
+    else {
+        await new Project({
+            name: req.body.name, 
+            note: req.body.note, 
+            teacher: req.session.teacher._id, 
+            deadline: req.body.time + " " + req.body.date, 
+            student: null, 
+            approvalStudents: [] // chua co sv nao !.
+        }).save()
+        res.redirect('/teachers/projects') 
+    }
+}
