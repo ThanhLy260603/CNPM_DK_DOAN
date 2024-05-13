@@ -1,3 +1,5 @@
+
+const Project = require('../models/Project')
 const Teacher = require('../models/Teacher')
 
 
@@ -29,8 +31,6 @@ exports.getCreateProject = async (req, res) => {
         res.render('createProject', {fullNameTeacher})  
     }
 }
-
-
 //xử lý việc tạo dự án mới
 exports.createProject = async (req, res) => {
     if (!checkAuthTeacher(req, res)) { 
@@ -48,3 +48,19 @@ exports.createProject = async (req, res) => {
         res.redirect('/teachers/projects') 
     }
 }
+//  hiển thị danh sách các dự án
+exports.getProjects = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    try {
+        const projects = await Project.find({})
+            .populate('teacher') 
+            .populate('student') 
+            .exec()
+        res.render('projects', {projects}) 
+    } catch (err) {
+        res.render('error',{message: err.message})
+    }
+}   
