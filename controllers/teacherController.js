@@ -33,3 +33,38 @@ exports.getCreateProject = async (req, res) => {
         res.render('createProject', {fullNameTeacher})  
     }
 }
+//xử lý việc tạo dự án mới
+exports.createProject = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+    }
+    else {
+        await new Project({
+            name: req.body.name, 
+            note: req.body.note, 
+            teacher: req.session.teacher._id, 
+            deadline: req.body.time + " " + req.body.date, 
+            student: null, 
+            approvalStudents: [] // chua co sv nao !.
+        }).save()
+        res.redirect('/teachers/projects') 
+    }
+}
+
+
+//  hiển thị danh sách các dự án
+exports.getProjects = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    try {
+        const projects = await Project.find({})
+            .populate('teacher') 
+            .populate('student') 
+            .exec()
+        res.render('projects', {projects}) 
+    } catch (err) {
+        res.render('error',{message: err.message})
+    }
+}   
