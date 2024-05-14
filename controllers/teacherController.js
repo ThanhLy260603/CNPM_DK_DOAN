@@ -63,4 +63,36 @@ exports.getProjects = async (req, res) => {
     } catch (err) {
         res.render('error',{message: err.message})
     }
-}   
+}  
+
+//Hàm này hiển thị trang chỉnh sửa thông tin của một dự án
+exports.getEditProject = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }   
+    const idProject = req.params.id
+    const project = await Project.findById(idProject).populate('teacher').exec()
+    // chia cắt chuỗi. 
+    let timeDate = project.deadline.split(" ")
+    const time = timeDate[0]
+    const date = timeDate[1]
+    res.render('teacher/editProject', {
+        project, time, date
+    })
+
+}
+//xử lý việc chỉnh sửa thông tin của một dự án
+exports.editProject = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }   
+    const idProject = req.params.id
+    const project = await Project.findById(idProject) 
+    project.name = req.body.name 
+    project.note = req.body.note 
+    project.deadline = req.body.time + " " + req.body.date 
+    await project.save()
+    res.redirect('/teachers/projects')
+} 
