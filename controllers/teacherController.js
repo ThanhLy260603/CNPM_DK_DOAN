@@ -96,3 +96,38 @@ exports.editProject = async (req, res) => {
     await project.save()
     res.redirect('/teachers/projects')
 } 
+//hiển thị danh sách các dự án cần phê duyệt cho giáo viên
+exports.getApproval = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+
+
+    const idTeacher = req.session.teacher._id
+    const projects = await Project.find({
+        teacher: idTeacher, 
+        student: { $exists: true, $eq: null }  
+    }).populate('approvalStudents').exec()
+    res.render('teacher/approvalProject', {projects})
+}
+
+    
+
+// hiển thị chi tiết của một dự án cần phê duyệt
+exports.getApprovalDetail = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    let message = null
+    if (req.query.studentApproved == 'true') {
+        message = "Sinh viên đã được duyệt đồ án rồi, vui lòng chọn sinh viên khác!"
+    }
+    const idProject = req.params.id 
+    const project = await Project.findById(idProject).populate('approvalStudents').exec()
+    res.render('teacher/detailApprovalProject', {project, message})
+
+
+  
+}  
