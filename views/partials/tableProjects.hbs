@@ -1,0 +1,53 @@
+<div class="relative overflow-x-auto mt-12">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Tên đề tài
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Giáo viên hướng dẫn
+                </th>
+
+                <th scope="col" class="px-6 py-3">
+                    Thời hạn
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Sinh viên thực hiện
+                </th>
+                <th>
+
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each projects}}
+            <tr class="bg-white border-b">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {{this.name}}
+                </th>
+                <td class="px-6 py-4">
+                    {{this.teacher.firstName}} {{this.teacher.lastName}}
+                </td>
+      
+                <td class="px-6 py-4">
+                    {{this.deadline}}
+                </td>
+                <td class="px-6 py-4">
+                    {{#if this.student}}
+                        <span>{{this.student.firstName}} {{this.student.lastName}} - {{this.student.maSV}}</span>
+                    {{else}}
+                        <span>None</span>
+                    {{/if}}
+                </td>
+                <td>
+                    <a href="/teachers/projects/{{this.id}}"><i class="fa-solid fa-file-pen text-lg"></i></a>
+                </td>
+
+            </tr>   
+            {{/each}}
+        </tbody>
+    </table>
+</div>
