@@ -131,3 +131,35 @@ exports.getApprovalDetail = async (req, res) => {
 
   
 }  
+//xử lý việc phê duyệt dự án cho sinh viên
+exports.approvalDetail = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+
+    const idStudent = req.body.idStudent
+    const idProject = req.params.id 
+
+
+    // trước tiên kiểm tra xem sinh viên đó đã được duyệt trong đồ án nào chưa để khỏi bị nhầm lẫn. 
+    // làm sao tìm kiếm => sử dụng findOne
+
+    const project = await Project.findOne({
+        student: idStudent
+    })
+    
+    if (project) {
+        res.redirect('/teachers/projects/approval/' + idProject + "?studentApproved=true")
+        return 
+    }
+
+    
+    const projectApproval = await Project.findById(idProject).populate('student').exec()    
+    projectApproval.student = idStudent
+    await projectApproval.save()
+
+
+
+    res.redirect('/teachers/projects/approval')   
+}

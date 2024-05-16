@@ -22,10 +22,15 @@
   },
   "homepage": "https://github.com/ThanhLy260603/CNPM_DK_DOAN#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "handlebars": "^4.7.8",
     "hbs": "^4.2.0",
     "mongoose": "^8.3.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
   }
 }
