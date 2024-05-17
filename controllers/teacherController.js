@@ -163,3 +163,27 @@ exports.approvalDetail = async (req, res) => {
 
     res.redirect('/teachers/projects/approval')   
 }
+//hiển thị trang để giáo viên tạo sinh viên mới
+exports.getCreateStudent = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+
+    // lấy ra từ param 
+    let message = null 
+    if (req.query.coincide == 'student') {
+        message = "Trùng mã số sinh viên!"
+    }
+    else if (req.query.coincide == 'teacher') {
+        message = "Trùng mã số giáo viên!"
+    }
+
+    else if (req.query.error == 'password') {
+        message = "Mật khẩu mà mật khẩu xác nhận không giống nhau!"
+    }
+
+    const error = req.query.error
+    if (error == 'invalid') res.render('createStudent', {error: 'invalid credentials'})
+    else res.render('createStudent', {message})
+}
