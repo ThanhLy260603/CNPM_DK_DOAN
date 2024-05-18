@@ -187,3 +187,52 @@ exports.getCreateStudent = async (req, res) => {
     if (error == 'invalid') res.render('createStudent', {error: 'invalid credentials'})
     else res.render('createStudent', {message})
 }
+// xử lý việc tạo sinh viên mới
+exports.createStudent = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+
+    // trước tiên check với lỗi xem có trùng không đã. 
+    const password = req.body.password
+    const confirmPassword = req.body.confirmPassword
+    if (password != confirmPassword) {
+        res.redirect('/teachers/students/create?error=password') 
+        return 
+    }
+
+    // kiểm tra mã sinh viên.  
+    const maSV = req.body.maSV
+    // kiểm tra xem có tồn tại mã sinh viên nào không. 
+    const student = await Student.findOne({
+        maSV // tìm kiêm theo mã sinh viên 
+    })
+    const teacher = await Teacher.findOne({
+        maGV: maSV
+    })
+
+    console.log(student + " student")
+
+
+    if (student != null) { 
+        console.log("Vào đây")
+        res.redirect('/teachers/students/create?coincide=student') 
+        return 
+    }
+    else if (teacher != null) {
+        res.redirect('/teachers/students/create?coincide=teacher') 
+        return 
+    }
+
+    const newStudent = new Student({ 
+        maSV: req.body.maSV,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        gender: req.body.gender, 
+        dateOfBirth: req.body.dateOfBirth, 
+    })
+    await newStudent.save()
+    res.redirect('/teachers/students') 
+}
