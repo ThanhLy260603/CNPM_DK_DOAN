@@ -1,4 +1,4 @@
-
+const Student = require('../models/Student')
 const Project = require('../models/Project')
 const Teacher = require('../models/Teacher')
 
@@ -235,4 +235,14 @@ exports.createStudent = async (req, res) => {
     })
     await newStudent.save()
     res.redirect('/teachers/students') 
+}
+
+// hiển thị danh sách sinh viên
+exports.getStudents = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    const students = await Student.find({})
+    res.render('students', {students: students})    
 }

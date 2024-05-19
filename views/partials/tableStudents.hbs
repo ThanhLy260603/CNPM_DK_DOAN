@@ -1,0 +1,56 @@
+
+
+
+<div class="relative overflow-x-auto mt-12">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Mã sinh viên
+                </th>
+        
+                <th scope="col" class="px-6 py-3">
+                    Họ và tên
+                </th>
+              
+                <th scope="col" class="px-6 py-3">
+                    Giới tính
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Ngày sinh
+                </th>
+                 <th scope="col" class="px-6 py-3">
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each students}}
+                <tr class="bg-white border-b">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {{this.maSV}}
+                </th>
+
+                <td class="px-6 py-4">
+                    {{this.firstName}} {{this.lastName}}
+                </td>
+    
+                <td class="px-6 py-4">
+                    {{this.gender}}
+                </td>
+                <td class="px-6 py-4">
+                    {{this.dateOfBirth}}
+                </td>
+
+                  <td class="px-6 py-4">
+                    <a href="/teachers/students/{{this.id}}">
+                        <i class="fa-solid fa-user-pen text-lg cursor-pointer"></i>
+                    </a>
+                    
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
