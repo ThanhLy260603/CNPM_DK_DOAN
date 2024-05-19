@@ -14,4 +14,5 @@ router.get('/projects/approval/:id', teacherController.getApprovalDetail)
 router.post('/projects/approval/:id', teacherController.approvalDetail)
 router.get('/students/create', teacherController.getCreateStudent)
 router.post('/students/create', teacherController.createStudent)
+router.get('/students', teacherController.getStudents)
 module.exports = router
