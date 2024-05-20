@@ -246,3 +246,28 @@ exports.getStudents = async (req, res) => {
     const students = await Student.find({})
     res.render('students', {students: students})    
 }
+//hiển thị trang chỉnh sửa thông tin của một sinh viên
+exports.getEditStudent = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    const idStudent = req.params.id
+    const student = await Student.findById(idStudent)
+    res.render('teacher/editStudent', {student})
+}
+//xử lý việc chỉnh sửa thông tin của một sinh viên
+exports.editStudent = async(req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    const idStudent = req.params.id
+    const student = await Student.findById(idStudent)
+    student.firstName = req.body.firstName 
+    student.lastName = req.body.lastName
+    student.gender = req.body.gender
+    student.dateOfBirth = req.body.dateOfBirth  
+    await student.save()
+    res.redirect('/teachers/students')
+}
