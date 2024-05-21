@@ -17,4 +17,5 @@ router.post('/students/create', teacherController.createStudent)
 router.get('/students', teacherController.getStudents)
 router.get('/students/:id', teacherController.getEditStudent)
 router.post('/students/:id', teacherController.editStudent)
+router.get('/logout', teacherController.handleLogout)
 module.exports = router

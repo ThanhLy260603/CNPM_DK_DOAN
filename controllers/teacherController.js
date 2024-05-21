@@ -271,3 +271,12 @@ exports.editStudent = async(req, res) => {
     await student.save()
     res.redirect('/teachers/students')
 }
+//xử lý việc đăng xuất giáo viên
+exports.handleLogout = async (req, res) => {
+    if (!checkAuthTeacher(req, res)) { 
+        res.render('unauthorized')
+        return
+    }
+    req.session.teacher = null 
+    res.redirect('/')
+}
