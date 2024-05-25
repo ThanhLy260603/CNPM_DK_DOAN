@@ -5,3 +5,4 @@ const studentController = require('../controllers/studentController')
 router.get('/', studentController.getStudents)
 
 module.exports = router
+
