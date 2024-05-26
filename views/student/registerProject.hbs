@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>đăng ký đề tài</title>
+</head>
+
+<body>
+    <section class="flex">
+        {{> sbstudent}}
+        <div class="ml-[300px] p-12 w-full">
+            <h3 class="text-xl font-medium text-center">Đăng ký đề tài</h3>
+            <div class="mt-12">
+
+                {{!-- projectApproal, projectsApproached, projectsNotResgiter, projectsResgiter --}}
+                {{#if projectHasBeenRegistered}}
+                      <h3 class="font-medium text-red-500">
+                        Đề tài có được sinh viên khác đăng ký, vui lòng chọn đề tài khác!
+                         <i class="fa-solid fa-check"></i>
+                        </h3>
+                {{/if}}
+
+                {{#if projectApproal}}
+                <div>
+                    <h3 class="font-medium text-gray-600">
+                        Bạn đã được duyệt đề tài
+                        <i class="fa-solid fa-check"></i>
+                    </h3>
+                    <div class="bg-white p-6 mt-4 flex justify-between" style="box-shadow: 0 8px 30px rgb(0,0,0,0.12);">
+                        <div>
+                            <p class="">Tên đề tài: <span class="font-medium">{{projectApproal.name}}</span></p>
+                            <p class="">Giảng viên hướng dẫn: <span class="font-medium">{{projectApproal.teacher.firstName}} {{projectApproal.teacher.lastName}}</span></p>
+                            <p class="">Thời hạn: <span class="font-medium">{{projectApproal.deadline}}</span></p>
+                            <p class="text-red-500">Ghi chú: <span>{{projectApproal.note}}</span></p>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <h3 class="font-medium text-gray-600">
+                        Bạn chưa được duyệt đề tài <i class="fa-solid fa-circle-xmark text-lg"></i>
+                {{/if}}
+
+
+                {{!-- Đề tài đã đăng ký ( đề tài chưa được giáo viên duyệt) --}}
+                <div class="mt-6">
+                    <h3 class="font-medium text-gray-600">
+                        đề tài đã đăng ký
+                        <i class="fa-solid fa-unlock"></i>
+                    </h3>
+
+                    {{!-- Lặp qua --}}
+                    {{#each projectsResgiter}}
+                    <div class="bg-white p-6 mt-4 flex justify-between" style="box-shadow: 0 8px 30px rgb(0,0,0,0.12);">
+                        <div>
+                            <p class="font-light">Tên đề tài: <span class="font-medium">{{this.name}}</span></p>
+                            <p class="font-light">Giảng viên hướng dẫn: <span class="font-medium">{{this.teacher.firstName}} {{this.teacher.lastName}}</span></p>
+                            <p class="font-light">Thời hạn: <span class="font-medium">{{this.deadline}}</span></p>
+                            <p class="font-light text-red-500">Ghi chú: <span>{{this.note}}</span></p>
+                        </div>
+                    </div>  
+                    {{/each}}
+                </div>
+
+
+                {{!-- Đồ tài chưa đăng ký ( đề tài chưa được giáo viên duyệt) --}}
+                <div class="mt-6">
+                    <h3 class="font-medium text-gray-600">
+                        đề tài chưa đăng ký
+                        <i class="fa-solid fa-unlock"></i>
+                    </h3>
+
+                    {{!-- Lặp qua --}}
+                    {{#each projectsNotResgiter}}
+                    <div class="bg-white p-6 mt-4 flex justify-between" style="box-shadow: 0 8px 30px rgb(0,0,0,0.12);">
+                        <div>
+                            <p class="font-light">Tên đề tài: <span class="font-medium">{{this.name}}</span></p>
+                            <p class="font-light">Giảng viên hướng dẫn: <span class="font-medium">{{this.teacher.firstName}} {{this.teacher.lastName}}</span></p>
+                            <p class="font-light">Thời hạn: <span class="font-medium">{{this.deadline}}</span></p>
+                            <p class="font-light text-red-500">Ghi chú: <span>{{this.note}}</span></p>
+                        </div>
+                        <form method="post" action="/students/projects" class="flex items-center">
+                            <input name="idProject" value="{{this._id}}" class="hidden">
+
+    
+                        
+                            {{#if this.isApproached}}
+                            <button type="submit" disabled="disabled" class="w-40 focus:outline-none text-white bg-gray-300 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                Đăng ký
+                            </button>
+                            {{else}}
+                            <button type="submit" class="w-40 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                Đăng ký
+                            </button>
+                            {{/if}}
+                        </form>
+                    </div>  
+                    {{/each}}
+                </div>
+
+                {{!-- Đề tài đã được giáo viên duyệt --}}
+                <div class="mt-6">
+                    <h3 class="font-medium text-gray-600">
+                        Đề tài đã được giáo viên duyệt
+                        <i class="fa-solid fa-unlock"></i>
+                    </h3>
+                    {{#each projectsApproached}}
+                    <div class="bg-white p-6 mt-4" style="box-shadow: 0 8px 30px rgb(0,0,0,0.12);">
+                            <p class="font-light">Tên đề tài: <span class="font-medium">{{this.name}}</span></p>
+                            <p class="font-light">Giảng viên hướng dẫn: <span class="font-medium">{{this.teacher.name}}</span></p>
+                            <p class="font-light">Sinh viên thực hiện: <span class="font-medium">{{this.student.firstName}} {{this.student.lastName}} - {{this.student.maSV}}</span></p>
+                            <p class="font-light">Thời hạn: <span class="font-medium">{{this.deadline}}</span></p>
+                            <p class="font-light text-red-500">Ghi chú: <span>{{this.note}}</span></p>
+                        </div>
+                    {{/each}}
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </section>
+</body>
+
+</html>
+
+<style>
+    li {
+        list-style: none;
+    }
+</style>
+
+
+<script>
+    console.log("lỗi rồi")
+</script>
