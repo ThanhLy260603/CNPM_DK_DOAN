@@ -91,5 +91,6 @@ app.use('/auth', authRoutes)
 app.use('/teachers', teacherRoutes)
 app.use('/students', studentRoutes)
 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
