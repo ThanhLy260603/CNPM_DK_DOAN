@@ -95,3 +95,23 @@ exports.registerProject = async (req, res) => {
     await project.save()
     res.redirect('/students/projects') // chuyển người dùng về lại giao diện đăng ký
 }
+//hiển thị trang để sinh viên thay đổi mật khẩu
+exports.getChangePassword = async(req, res) => {
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    } 
+    let message = ""
+    if (req.query.error == 'password') {
+        message = 'Password và confirm password không giống nhau!'
+        console.log(message)
+        res.render('student/changePassword', {message})
+        return
+    }
+    else if (req.query.success == 'true') {
+        message = 'Thay đổi mật khẩu thành công!'
+        res.render('student/changePassword', {message})
+        return
+    }
+    res.render('student/changePassword')
+}
