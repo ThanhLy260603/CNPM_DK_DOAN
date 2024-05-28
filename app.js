@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
 const teacherRoutes = require('./routes/teacherRoutes')
+const studentRoutes = require('./routes/studentRoutes')
 const session = require('express-session')
 const hbs = require('hbs')
 const path = require('path')
@@ -88,6 +89,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes)
 app.use('/teachers', teacherRoutes)
+app.use('/students', studentRoutes)
 
 
 const PORT = process.env.PORT || 3000;
