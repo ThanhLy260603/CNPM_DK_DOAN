@@ -21,7 +21,11 @@ router.post('/projects/approval/:id', teacherController.approvalDetail)
 // edit sinh viên
 router.get('/students/:id', teacherController.getEditStudent)
 router.post('/students/:id', teacherController.editStudent)
+
+router.get('/logout', teacherController.handleLogout)
+
 router.get('/projects/:id', teacherController.getEditProject)
 router.post('/projects/:id', teacherController.editProject)
+
 
 module.exports = router

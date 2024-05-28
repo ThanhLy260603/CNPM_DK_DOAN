@@ -81,3 +81,17 @@ exports.getRegisterProject = async (req, res) => {
 
     res.render('student/registerProject', {projectApproal, projectsApproached, projectsNotResgiter, projectsResgiter})
 }
+//xử lý việc đăng ký dự án cho sinh viên
+exports.registerProject = async (req, res) => {
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    } 
+
+    const idProject = req.body.idProject    
+    const project = await Project.findById(idProject).populate('student')
+    const student = req.session.student
+    project.approvalStudents.push(student._id)  
+    await project.save()
+    res.redirect('/students/projects') // chuyển người dùng về lại giao diện đăng ký
+}
