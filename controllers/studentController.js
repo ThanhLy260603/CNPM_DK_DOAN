@@ -113,5 +113,25 @@ exports.getChangePassword = async(req, res) => {
         res.render('student/changePassword', {message})
         return
     }
+//xử lý việc thay đổi mật khẩu của sinh viên
+exports.changePassword = async(req, res) => {
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    } 
+    const password = req.body.password
+    const confirmPassword = req.body.confirmPassword    
+    if (password != confirmPassword) {
+        res.redirect('/students/change-password?error=password')
+        return
+    }
+
+
+    const idStudent = req.session.student._id
+    const student = await Student.findById(idStudent)
+    student.password = password
+    await student.save()
+    res.redirect('/students/change-password?success=true')
+}
     res.render('student/changePassword')
 }
