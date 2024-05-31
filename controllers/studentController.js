@@ -1,20 +1,10 @@
-const Student = require('../models/Student')
 const Project = require('../models/Project')
+const Student = require('../models/Student')
 //kiểm tra xem một sinh viên đã đăng nhập chưa
 function checkAuthStudent(req, res) {
     const student = req.session.student 
     if (!student) return false 
     return true
-}
-
-//hiển thị thông tin cá nhân của sinh viên
-exports.getStudents = async (req, res) => {
-    if (!checkAuthStudent(req, res)) {
-        res.render('unauthorized')
-        return 
-    }
-    res.render('student/profile', {student: req.session.student})
-
 }
 
 //hiển thị thông tin cá nhân của sinh viên
@@ -81,6 +71,19 @@ exports.getRegisterProject = async (req, res) => {
 
     res.render('student/registerProject', {projectApproal, projectsApproached, projectsNotResgiter, projectsResgiter})
 }
+
+
+//xử lý việc đăng xuất sinh viên
+exports.handleLogout = async (req, res) => {
+
+    // xóa đi và chuyển về người trang chủ.
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    }
+    req.session.student = null 
+    res.redirect('/')
+}
 //xử lý việc đăng ký dự án cho sinh viên
 exports.registerProject = async (req, res) => {
     if (!checkAuthStudent(req, res)) {
@@ -95,6 +98,20 @@ exports.registerProject = async (req, res) => {
     await project.save()
     res.redirect('/students/projects') // chuyển người dùng về lại giao diện đăng ký
 }
+//Hàm này xử lý việc hủy đăng ký dự án cho sinh viên
+exports.cancelRegistration = async (req, res) => {
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    } 
+    const idProject = req.body.idProject    
+    
+    const project = await Project.findById(idProject).populate('student')
+    project.student = null
+    await project.save()
+    res.redirect('/students/projects')
+}
+
 //hiển thị trang để sinh viên thay đổi mật khẩu
 exports.getChangePassword = async(req, res) => {
     if (!checkAuthStudent(req, res)) {
@@ -114,4 +131,25 @@ exports.getChangePassword = async(req, res) => {
         return
     }
     res.render('student/changePassword')
+}
+
+//xử lý việc thay đổi mật khẩu của sinh viên
+exports.changePassword = async(req, res) => {
+    if (!checkAuthStudent(req, res)) {
+        res.render('unauthorized')
+        return 
+    } 
+    const password = req.body.password
+    const confirmPassword = req.body.confirmPassword    
+    if (password != confirmPassword) {
+        res.redirect('/students/change-password?error=password')
+        return
+    }
+
+
+    const idStudent = req.session.student._id
+    const student = await Student.findById(idStudent)
+    student.password = password
+    await student.save()
+    res.redirect('/students/change-password?success=true')
 }
